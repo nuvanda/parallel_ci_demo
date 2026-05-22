@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Dummy 0" do
   it "sleeps for 100 seconds" do
-    sleep(1)
+    sleep(5)
     expect(true).to be true
   end
 
