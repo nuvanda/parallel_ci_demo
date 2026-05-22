@@ -196,6 +196,8 @@ GEM
       racc (~> 1.4)
     ostruct (0.6.3)
     parallel (2.1.0)
+    parallel_tests (5.7.0)
+      parallel
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
@@ -391,6 +393,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  parallel_tests (~> 5.7)
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)

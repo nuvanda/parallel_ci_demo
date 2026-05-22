@@ -78,8 +78,11 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Set up database
-        run: bin/rails db:test:prepare
+      - name: Set up parallel databases
+        run: |
+          bin/rails db:test:prepare
+          bundle exec rake parallel:create
+          bundle exec rake parallel:prepare
 
-      - name: Run RSpec
-        run: bundle exec rspec
+      - name: Run RSpec in parallel
+        run: bundle exec parallel_rspec spec/
