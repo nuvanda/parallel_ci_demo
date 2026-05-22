@@ -78,6 +78,16 @@ jobs:
         with:
           bundler-cache: true
 
+      - name: Cache parallel_tests runtime log
+        uses: actions/cache@v4
+        with:
+          path: tmp/parallel_runtime_rspec.log
+          # Create a new cache on every commit, but restore from the latest available on this branch or main
+          key: rspec-runtime-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            rspec-runtime-${{ github.ref_name }}-
+            rspec-runtime-main-
+
       - name: Set up parallel databases
         run: |
           bin/rails db:test:prepare
@@ -85,4 +95,12 @@ jobs:
           bundle exec rake parallel:prepare
 
       - name: Run RSpec in parallel
-        run: bundle exec parallel_rspec spec/
+        run: |
+          # Only use the group-by flag if the log file exists and has content
+          if [ -s tmp/parallel_runtime_rspec.log ]; then
+            echo "Using runtime log for balancing..."
+            bundle exec parallel_rspec spec/ --group-by runtime
+          else
+            echo "No log found, using default balancing (will generate log for next time)..."
+            bundle exec parallel_rspec spec/
+          fi
