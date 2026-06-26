@@ -53,7 +53,7 @@ jobs:
           bundler-cache: true
 
       - name: Prepare RuboCop cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         env:
           DEPENDENCIES_HASH: ${{ hashFiles('.ruby-version', '**/.rubocop.yml', '**/.rubocop_todo.yml', 'Gemfile.lock') }}
         with:
@@ -79,7 +79,7 @@ jobs:
           bundler-cache: true
 
       - name: Cache parallel_tests runtime log
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: tmp/parallel_runtime_rspec.log
           # Create a new cache on every commit, but restore from the latest available on this branch or main
